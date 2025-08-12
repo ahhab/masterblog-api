@@ -1,4 +1,4 @@
-from flask import Flask, jsonify, request
+from flask import Flask, jsonify, request, send_from_directory
 from flask_cors import CORS
 from swagger import swagger_ui_blueprint, SWAGGER_URL
 
@@ -96,6 +96,10 @@ def search_posts():
         results = [p for p in results if content_query.lower() in p['content'].lower()]
         
     return jsonify(results)
+
+@app.route('/static/<path:path>')
+def send_static(path):
+    return send_from_directory('static', path)
 
 app.register_blueprint(swagger_ui_blueprint, url_prefix=SWAGGER_URL)
 
